@@ -1,4 +1,4 @@
-from Player import *
+from Bot import *
 
 
 class Grid(object):
@@ -6,11 +6,17 @@ class Grid(object):
     COLUMNS = 7
     ROWS = 6
 
-    def __init__(self):
+    def __init__(self, player1, player2):
         self.grid = [[0 for x in range(self.COLUMNS)] for y in range(self.ROWS)]
         self.player = []
-        self.player.append(Player(1))
-        self.player.append(Player(2))
+        if player1 == 'p':
+            self.player.append(Player(1))
+        else:
+            self.player.append(Bot(1))
+        if player2 == 'p':
+            self.player.append(Player(2))
+        else:
+            self.player.append(Bot(2))
 
     def __str__(self):
         out = ''
@@ -22,10 +28,10 @@ class Grid(object):
                 out = out + '\n'
         return out
 
-    def check_horizontal_vertical(self, player_number, column, row, type):
+    def check_horizontal_vertical(self, player_number, column, row, direction_type):
         a = 0
         b = 0
-        if type == 'horizontal':
+        if direction_type == 'horizontal':
             a = 1
         else:
             b = 1
@@ -49,9 +55,9 @@ class Grid(object):
         else:
             return False
 
-    def check_diagonal(self, player_number, column, row, type):
+    def check_diagonal(self, player_number, column, row, diagonal_type):
         a = 1
-        if type == 1:
+        if diagonal_type == 1:
             b = 1
         else:
             b = -1
@@ -92,7 +98,8 @@ class Grid(object):
             return True
         return False
 
-    def invalid_move(self):
+    @staticmethod
+    def invalid_move():
         print('Invalid move')
 
     def player_turn(self, player_number):
